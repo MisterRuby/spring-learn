@@ -3,15 +3,18 @@ package ruby.spring.config;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.JdbcTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
 
+/**
+ * 스프링부트에서 자동구성을 통해 DataSource, TransactionManager, JdbcTemplate 을 빈으로 등록해준다.
+ * - 별도의 설정이 없으면 메모리 DB 를 사용하도록 설정됨
+ */
 @Slf4j
-@Configuration
+//@Configuration - 주석처리
 public class DbConfig {
 
     @Bean

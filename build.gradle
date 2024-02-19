@@ -34,6 +34,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // 외부 라이브러리 jar 파일을 추가
+    implementation files('libs/memory-v1-0.0.1.jar')
+    // AutoConfiguration 이 적용된 라이브러리 추가
+    // AutoConfiguration 적용을 위해 환경변수 memory=on 을 추가해줘야한다.
+    implementation files('libs/memory-v2-0.0.1.jar')
 }
 
 tasks.named('test') {

@@ -48,3 +48,48 @@
     - 지정한 타입의 빈이 없을 경우에 빈으로 등록
   - @ConditionalOnProperty
     - 지정한 시스템 설정 값이 조건에 맞는 값일 때 빈으로 등록
+
+### @AutoConfiguration
+- 스프링부트 자동 구성 시에 사용
+  - 라이브러리 안의 해당 애너테이션이 붙은 클래스를 빈으로 등록
+    ```java
+    @AutoConfiguration
+    @ConditionalOnProperty(
+        name = {"memory"},
+        havingValue = "on"
+    )
+    public class MemoryAutoConfig {
+  
+        @Bean
+        public MemoryFinder memoryFinder() {
+            return new MemoryFinder();
+        }
+  
+        @Bean
+        public MemoryController memoryController() {
+            return new MemoryController(this.memoryFinder());
+        }
+    }
+    ```
+    - 라이브러리 안의 org.springframework.boot.autoconfigure.AutoConfiguration.imports 파일 안에 기재된 @AutoConfiguration 이 붙은 클래스를 기재한다.
+      ```text
+      memory.MemoryAutoConfig
+      ```
+  - @SpringBootApplication -> @EnableAutoConfiguration -> @Import(AutoConfigurationImportSelector.class) -> org.springframework.boot.autoconfigure.AutoConfiguration.imports
+    - @EnableAutoConfiguration
+      - 자동 구성을 활성화 하는 기능을 제공
+    - @Import(AutoConfigurationImportSelector.class)
+      ```java
+      // classPath 경로에 있는 클래스를 빈으로 등록
+      // AutoConfigurationImportSelector 에서 org.springframework.boot.autoconfigure.AutoConfiguration.imports 안에 기재된 경로들을 사용한다.
+      public class HelloImportSelector implements ImportSelector {
+      
+        @Override
+        public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+          String classPath = "spring.selector.HelloConfig";
+      
+          return new String[]{classPath};
+        }
+      
+      }
+      ```
